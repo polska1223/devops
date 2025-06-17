@@ -3,7 +3,9 @@ import random
 COLORS = ['R', 'G', 'B', 'Y', 'O', 'P']  # 6 kleuren
 
 def generate_Code(length=4):
-    return [random.choice(COLORS) for _ in range(length)]
+    def generate_Code(length=4, colors="RGBYOP"):
+    return [random.choice(colors) for _ in range(length)]
+
 
 def get_Feedback(secret, guess):
     black_Pegs = sum(s == g for s, g in zip(secret, guess))
@@ -30,7 +32,9 @@ def play_Mastermind():
     for attempt in range(1, attempts + 1):
         guess = ""
         valid_Guess = False
-        while not valid_Guess:
+        wvalid_Guess = len(guess) == 4 and all(c in "RGBYOP" for c in guess.upper())
+guess = guess.upper()
+
             guess = input(f"Poging {attempt}: ").strip().upper()
             valid_Guess = len(guess) == 4 and all(c in COLORS for c in guess)
             if not valid_Guess:
