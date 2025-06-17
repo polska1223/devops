@@ -1,73 +1,52 @@
-
 import random
 
+COLORS = ['R', 'G', 'B', 'Y', 'O', 'P']  # 6 kleuren
 
-COLORS = ['R', 'G', 'B', 'Y', 'O', 'P']  
-
-def generate_code(length=4):
-    """Genereer een geheime code van kleuren"""
+def generate_Code(length=4):
     return [random.choice(COLORS) for _ in range(length)]
 
-def get_feedback(secret, guess):
-    """Geef feedback in zwarte en witte pins (correcte plaats/ verkeerde plaats)"""
-    black_pegs = sum(s == g for s, g in zip(secret, guess))
+def get_Feedback(secret, guess):
+    black_Pegs = sum(s == g for s, g in zip(secret, guess))
 
-    secret_counts = {}
-    guess_counts = {}
+    secret_Counts = {}
+    guess_Counts = {}
 
     for s, g in zip(secret, guess):
         if s != g:
-            secret_counts[s] = secret_counts.get(s, 0) + 1
-            guess_counts[g] = guess_counts.get(g, 0) + 1
+            secret_Counts[s] = secret_Counts.get(s, 0) + 1
+            guess_Counts[g] = guess_Counts.get(g, 0) + 1
 
-    white_pegs = sum(min(secret_counts.get(color, 0), guess_counts.get(color, 0)) for color in guess_counts)
+    white_Pegs = sum(min(secret_Counts.get(d, 0), guess_Counts.get(d, 0)) for d in guess_Counts)
 
-    return black_pegs, white_pegs
+    return black_Pegs, white_Pegs
 
-def is_valid_guess(guess, length=4):
-    """Controleer of de invoer geldig is"""
-    if len(guess) != length:
-        return False
-    for c in guess:
-        if c not in COLORS:
-            return False
-    return True
-
-def play_mastermind():
+def play_Mastermind():
     print("Welkom bij Mastermind!")
-    print(f"Raad de geheime code van {len(COLORS)} kleuren: {', '.join(COLORS)}")
-    print("De code bestaat uit 4 kleuren. Probeer hem te raden in maximaal 10 beurten.")
-    print("Voer je gok in als een reeks van 4 letters, bv. RGBY")
-
-    secret_code = generate_code()
+    print("Raad de 4 kleuren code. Kies uit: R, G, B, Y, O, P")
+    print("Bijvoorbeeld: RGBY")
+    secret_Code = generate_Code()
     attempts = 10
 
     for attempt in range(1, attempts + 1):
         guess = ""
-        while True:
-            guess = input(f"Beurt {attempt}: ").strip().upper()
-            if is_valid_guess(guess):
-                break
-            else:
-                print(f"Ongeldige invoer! Gebruik precies 4 letters uit {COLORS}")
+        valid_Guess = False
+        while not valid_Guess:
+            guess = input(f"Poging {attempt}: ").strip().upper()
+            valid_Guess = len(guess) == 4 and all(c in COLORS for c in guess)
+            if not valid_Guess:
+                print("Ongeldige invoer. Gebruik 4 letters van R, G, B, Y, O, P.")
 
-        black, white = get_feedback(secret_code, list(guess))
-        print(f"Zwarte pins (juiste kleur en plaats): {black}")
-        print(f"Witte pins (juiste kleur, verkeerde plaats): {white}")
+        black, white = get_Feedback(secret_Code, guess)
+        print(f"Zwarte pinnen (juiste kleur & positie): {black}, Witte pinnen (juiste kleur, verkeerde plek): {white}")
 
         if black == 4:
-            print(f"Gefeliciteerd! Je hebt de code geraden: {''.join(secret_code)}")
+            print(f"Gefeliciteerd! Je hebt de code geraden: {''.join(secret_Code)}")
             return
 
-    print(f"Helaas, je hebt alle pogingen gebruikt. De juiste code was: {''.join(secret_code)}")
-
-def main():
-    while True:
-        play_mastermind()
-        again = input("Wil je opnieuw spelen? (J/N): ").strip().upper()
-        if again != 'J':
-            print("Bedankt voor het spelen!")
-            break
+    print(f"Helaas, je hebt verloren. De juiste code was: {''.join(secret_Code)}")
 
 if __name__ == "__main__":
-    main()
+    again = 'Y'
+    while again == 'Y':
+        play_Mastermind()
+        again = input("Opnieuw spelen? (Y/N): ").upper()
