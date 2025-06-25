@@ -2,51 +2,51 @@ import random
 
 COLORS = ['R', 'G', 'B', 'Y', 'O', 'P']  # 6 kleuren
 
-def generate_Code(length=4):
+def generate_code(length=4):
     return [random.choice(COLORS) for _ in range(length)]
 
-def get_Feedback(secret, guess):
-    black_Pegs = sum(s == g for s, g in zip(secret, guess))
+def get_feedback(secret, guess):
+    black_pegs = sum(s == g for s, g in zip(secret, guess))
 
-    secret_Counts = {}
-    guess_Counts = {}
+    secret_counts = {}
+    guess_counts = {}
 
     for s, g in zip(secret, guess):
         if s != g:
-            secret_Counts[s] = secret_Counts.get(s, 0) + 1
-            guess_Counts[g] = guess_Counts.get(g, 0) + 1
+            secret_counts[s] = secret_counts.get(s, 0) + 1
+            guess_counts[g] = guess_counts.get(g, 0) + 1
 
-    white_Pegs = sum(min(secret_Counts.get(d, 0), guess_Counts.get(d, 0)) for d in guess_Counts)
+    white_pegs = sum(min(secret_counts.get(d, 0), guess_counts.get(d, 0)) for d in guess_counts)
 
-    return black_Pegs, white_Pegs
+    return black_pegs, white_pegs
 
-def play_Mastermind():
+def play_mastermind():
     print("Welkom bij Mastermind!")
     print("Raad de 4 kleuren code. Kies uit: R, G, B, Y, O, P")
     print("Bijvoorbeeld: RGBY")
-    secret_Code = generate_Code()
+    secret_code = generate_code()
     attempts = 10
 
     for attempt in range(1, attempts + 1):
         guess = ""
-        valid_Guess = False
-        while not valid_Guess:
+        valid_guess = False
+        while not valid_guess:
             guess = input(f"Poging {attempt}: ").strip().upper()
-            valid_Guess = len(guess) == 4 and all(c in COLORS for c in guess)
-            if not valid_Guess:
+            valid_guess = len(guess) == 4 and all(c in COLORS for c in guess)
+            if not valid_guess:
                 print("Ongeldige invoer. Gebruik 4 letters van R, G, B, Y, O, P.")
 
-        black, white = get_Feedback(secret_Code, guess)
+        black, white = get_feedback(secret_code, guess)
         print(f"Zwarte pinnen (juiste kleur & positie): {black}, Witte pinnen (juiste kleur, verkeerde plek): {white}")
 
         if black == 4:
-            print(f"Gefeliciteerd! Je hebt de code geraden: {''.join(secret_Code)}")
+            print(f"Gefeliciteerd! Je hebt de code geraden: {''.join(secret_code)}")
             return
 
-    print(f"Helaas, je hebt verloren. De juiste code was: {''.join(secret_Code)}")
+    print(f"Helaas, je hebt verloren. De juiste code was: {''.join(secret_code)}")
 
 if __name__ == "__main__":
-    again = 'Y'
-    while again == 'Y':
-        play_Mastermind()
-        again = input("Opnieuw spelen? (Y/N): ").upper()
+    play_again= 'Y'
+    while play_again == 'Y':
+        play_mastermind()
+        play_again = input("Opnieuw spelen? (Y/N): ").upper()
