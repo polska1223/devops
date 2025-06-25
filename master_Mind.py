@@ -24,7 +24,10 @@ def play_mastermind():
     print("Welkom bij Mastermind!")
     print("Raad de 4 kleuren code. Kies uit: R, G, B, Y, O, P")
     print("Bijvoorbeeld: RGBY")
+    debug_mode = False
     secret_code = generate_code()
+    if debug_mode:
+        print(f"[DEBUG] Geheime code: {''.join(secret_code)}")
     attempts = 10
 
     for attempt in range(1, attempts + 1):
