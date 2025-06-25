@@ -32,6 +32,11 @@ def play_mastermind():
         valid_guess = False
         while not valid_guess:
             guess = input(f"Poging {attempt}: ").strip().upper()
+            
+            if not guess:
+                print("Je hebt niets ingevuld. Probeer opnieuw.")
+                continue
+
             valid_guess = len(guess) == 4 and all(c in COLORS for c in guess)
             if not valid_guess:
                 print("Ongeldige invoer. Gebruik 4 letters van R, G, B, Y, O, P.")
@@ -46,7 +51,7 @@ def play_mastermind():
     print(f"Helaas, je hebt verloren. De juiste code was: {''.join(secret_code)}")
 
 if __name__ == "__main__":
-    play_again= 'Y'
+    play_again = 'Y'
     while play_again == 'Y':
         play_mastermind()
         play_again = input("Opnieuw spelen? (Y/N): ").upper()
