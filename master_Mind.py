@@ -1,66 +1,63 @@
 
 import random
 
-def generate_Code(length=4, colors="RGBYOP"):
-    """Genereert een geheime code met 4 willekeurige kleuren"""
-    return [random.choice(colors) for _ in range(length)]
 
-def get_Feedback(secret, guess):
-    """Geeft aantal black pegs (juiste kleur en positie) en white pegs (juiste kleur, verkeerde positie)"""
-    black_Pegs = sum(s == g for s, g in zip(secret, guess))
+def generate_code(length=4):
+    return [random.choice(COLORS) for _ in range(length)]
 
-    
-    secret_Counts = {}
-    guess_Counts = {}
+def get_feedback(secret, guess):
+    black_pegs = sum(s == g for s, g in zip(secret, guess))
+
+    secret_counts = {}
+    guess_counts = {}
+
     for s, g in zip(secret, guess):
         if s != g:
-            secret_Counts[s] = secret_Counts.get(s, 0) + 1
-            guess_Counts[g] = guess_Counts.get(g, 0) + 1
+            secret_counts[s] = secret_counts.get(s, 0) + 1
+            guess_counts[g] = guess_counts.get(g, 0) + 1
 
-    white_Pegs = sum(min(secret_Counts.get(c, 0), guess_Counts.get(c, 0)) for c in guess_Counts)
-    
-    return black_Pegs, white_Pegs
+    white_pegs = sum(min(secret_counts.get(d, 0), guess_counts.get(d, 0)) for d in guess_counts)
 
-def play_Mastermind():
+    return black_pegs, white_pegs
+
+
+def play_mastermind():
     print("Welkom bij Mastermind!")
-    print("Raad de geheime code van 4 kleuren.")
-    print("Mogelijke kleuren: R (rood), G (groen), B (blauw), Y (geel), O (oranje), P (paars)")
-    print("Je hebt 10 pogingen.")
 
-    secret_Code = generate_Code()
+    print("Raad de 4 kleuren code. Kies uit: R, G, B, Y, O, P")
+    print("Bijvoorbeeld: RGBY")
+    debug_mode = False
+    secret_code = generate_code()
+    if debug_mode:
+        print(f"[DEBUG] Geheime code: {''.join(secret_code)}")
     attempts = 10
 
     for attempt in range(1, attempts + 1):
-        valid_Guess = False
-        while not valid_Guess:
-            guess = input(f"Poging {attempt} - Voer je gok in (bv. RGBY): ").strip().upper()
-            if len(guess) != 4:
-                print(" Je invoer moet precies 4 tekens lang zijn.")
-            elif not all(c in "RGBYOP" for c in guess):
-                print(" Alleen de letters R, G, B, Y, O, P zijn toegestaan.")
-            else:
-                valid_Guess = True
+        guess = ""
+        valid_guess = False
+        while not valid_guess:
+            guess = input(f"Poging {attempt}: ").strip().upper()
+            
+            if not guess:
+                print("Je hebt niets ingevuld. Probeer opnieuw.")
+                continue
 
-        black, white = get_Feedback(secret_Code, guess)
-        print(f" Black pegs (juiste kleur & positie): {black}")
-        print(f" White pegs (juiste kleur, verkeerde positie): {white}")
+            valid_guess = len(guess) == 4 and all(c in COLORS for c in guess)
+            if not valid_guess:
+                print("Ongeldige invoer. Gebruik 4 letters van R, G, B, Y, O, P.")
+
+        black, white = get_feedback(secret_code, guess)
+        print(f"Zwarte pinnen (juiste kleur & positie): {black}, Witte pinnen (juiste kleur, verkeerde plek): {white}")
 
         if black == 4:
-            print(f" Gefeliciteerd! Je hebt de code geraden: {''.join(secret_Code)}")
+            print(f"Gefeliciteerd! Je hebt de code geraden: {''.join(secret_code)}")
             return
 
-    print(f" Je hebt geen pogingen meer. De juiste code was: {''.join(secret_Code)}")
-
-def test_get_Feedback():
-    """Simpele testfunctie voor get_Feedback"""
-    print(" Test 1:", get_Feedback(['R','G','B','Y'], 'RGBY'))  
-    print(" Test 2:", get_Feedback(['R','G','B','Y'], 'YBGR'))  
-    print(" Test 3:", get_Feedback(['R','G','B','Y'], 'RRRR')) 
+    print(f"Helaas, je hebt verloren. De juiste code was: {''.join(secret_code)}")
 
 if __name__ == "__main__":
-    again = 'Y'
-    while again == 'Y':
-        play_Mastermind()
-        again = input("Wil je opnieuw spelen? (Y/N): ").strip().upper()
-        while again not in ['Y', 'N']:
-            again = input("Voer 'Y' of 'N' in: ").strip().upper()
+    play_again = 'Y'
+    while play_again == 'Y':
+        play_mastermind()
+        play_again = input("Opnieuw spelen? (Y/N): ").upper()
+

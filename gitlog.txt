@@ -1,0 +1,35 @@
+commit 06e9cf74bac19014b40d1d92dd20d68a4f3bacf9
+Author: Jia <voidpacket@gmail.com>
+Date:   Wed Jun 25 13:44:44 2025 +0200
+
+    Debug mode toegevoegd om geheime code zichtbaar te maken bij testen
+
+commit 60e06bbc3c820ab3b8348534a3ff06a83372a029
+Author: Jia <voidpacket@gmail.com>
+Date:   Wed Jun 25 13:36:55 2025 +0200
+
+    Validatie toegevoegd voor lege invoer van speler
+
+commit fc6e3ff556ca87399c21ff781824048a23eba7a5
+Author: Jia <voidpacket@gmail.com>
+Date:   Wed Jun 25 13:33:32 2025 +0200
+
+    Code omgezet naar snake_case
+
+commit f82c48c120a5395242d1ea9ebfc59fd955a8dde2
+Author: polska1223 <1214525@student.roc-nijmegen.nl>
+Date:   Tue Jun 17 11:50:38 2025 +0200
+
+    Create GIT.LOG
+
+commit 5e1b59352175394a6db5a59982c704af5be321b3
+Author: polska1223 <mikolajdanicki34@gmail.com>
+Date:   Tue Jun 17 11:36:37 2025 +0200
+
+    feat: verander code van cijfers naar kleuren (RGBYOP)
+
+commit 2ee5243d192c9b45c1b51914e78a820b5d092331
+Author: polska1223 <mikolajdanicki34@gmail.com>
+Date:   Tue Jun 17 11:27:32 2025 +0200
+
+    first commit
