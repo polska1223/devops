@@ -1,6 +1,6 @@
+
 import random
 
-COLORS = ['R', 'G', 'B', 'Y', 'O', 'P']  # 6 kleuren
 
 def generate_code(length=4):
     return [random.choice(COLORS) for _ in range(length)]
@@ -20,8 +20,10 @@ def get_feedback(secret, guess):
 
     return black_pegs, white_pegs
 
+
 def play_mastermind():
     print("Welkom bij Mastermind!")
+
     print("Raad de 4 kleuren code. Kies uit: R, G, B, Y, O, P")
     print("Bijvoorbeeld: RGBY")
     debug_mode = False
@@ -58,3 +60,4 @@ if __name__ == "__main__":
     while play_again == 'Y':
         play_mastermind()
         play_again = input("Opnieuw spelen? (Y/N): ").upper()
+
